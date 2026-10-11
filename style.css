@@ -1,0 +1,154 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(to right, #292b36, #090A0F);
+    max-height: 100vh;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+form {
+    margin-top: 3rem;
+    color: #E2E8F0;
+    font-size: large;
+    font-weight: 600;
+    padding: 0 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.tr-template-form {
+    width: 100%;
+}
+
+.template-name-div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: #E2E8F0;
+}
+
+.main-container {
+    width: fit-content;
+    min-width: 35%;
+    gap: 1rem;
+    border-radius: 9px;
+    margin: 8rem auto;
+    padding: 1rem;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 3rem;
+}
+
+.container>input {
+    border-radius: 3px;
+    border: none;
+}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 0 0 0;
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+    height: 10rem;
+    border-radius: 3px;
+}
+
+#copy-content-btn {
+    background-color: #8B5CF6;
+    color: #E2E8F0;
+}
+
+#copy-content-btn:hover {
+    transform: scale(1.05);
+    background: none;
+    border: 1px solid #8B5CF6;
+}
+
+#clear-btn {
+    background-color: #E2E8F0;
+}
+
+#clear-btn:hover {
+    transform: scale(1.05);
+}
+
+#undo-btn:hover {
+    transform: scale(1.05);
+}
+
+button {
+    background-color: #E2E8F0;
+    border-radius: 100px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 7px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all, 250ms;
+    border: 0;
+    font-size: 16px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+/* navbar section */
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 70px;
+    width: 100%;
+    background-color: #090A0F;
+    color: #E2E8F0;
+}
+
+nav .nav-bar {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    padding: 0 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-bar .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    color: #E2E8F0;
+}
+
+.nav-bar .nav-links li {
+    list-style: none;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #E2E8F0;
+    font-weight: 500;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+}
