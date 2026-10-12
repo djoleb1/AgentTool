@@ -178,14 +178,19 @@ const form = document.querySelector('#template-form');
 
 form.addEventListener('click', (e) => {
 
+    // Select containers ONLY inside the current form
+    const elements = form.querySelectorAll('.container');
+
+    //adding the content from Textareas
+    let details = form.querySelector('.steps');
+    let stepsLabel = details.querySelector('label');
+    let stepsContent = details.querySelector('textarea');
+
     // Check if the Copy button was clicked
     if (e.target.id === 'copy-content-btn') {
         e.preventDefault();
         const button = document.getElementById('copy-content-btn');
         let note = '';
-
-        // Select containers ONLY inside the current form
-        const elements = form.querySelectorAll('.container');
 
         elements.forEach((element) => {
 
@@ -195,13 +200,7 @@ form.addEventListener('click', (e) => {
             note += `${label} ${inputVal}\n`;
         });
 
-        //adding the content from Textareas
-        const details = form.querySelector('.steps');
-        const stepsLabel = details.querySelector('label').innerText;
-        const stepsContent = details.querySelector('textarea').value;
-
-
-        note += `\n${stepsLabel}\n\n${stepsContent}`
+        note += `\n${stepsLabel.innerText}\n\n${stepsContent.value}`
 
         navigator.clipboard.writeText(note);
         console.log(note);
@@ -221,44 +220,21 @@ form.addEventListener('click', (e) => {
         timerId = setTimeout(() => {
             button.textContent = button.dataset.originalText;
             timerId = null; // Reset the tracker
-        }, 3000);
+        }, 1500);
+    } else if (e.target.id === 'clear-btn') {
+
+        e.preventDefault();
+
+        elements.forEach((element) => {
+            element.querySelector('input').value = '';
+        })
+
+        stepsContent.value = '';
     }
 });
 
 
-clearButton.addEventListener('click', (e) => {
-    e.preventDefault()
-
-    let siteName = document.getElementById('site-name').value;
-    localStorage.setItem('siteName', siteName);
-
-    let pointOfContact = document.getElementById('poc').value;
-    localStorage.setItem('pointOfContact', pointOfContact);
-
-    let contactPhone = document.getElementById('contact-phone').value;
-    localStorage.setItem('contactPhone', contactPhone);
-
-    let contactEmail = document.getElementById('contact-email').value;
-    localStorage.setItem('contactEmail', contactEmail);
-
-    let cmcId = document.getElementById('cmc-id').value;
-    localStorage.setItem('cmcId', cmcId);
-
-    let issueDescription = document.getElementById('description-of-issue').value;
-    localStorage.setItem('issueDescription', issueDescription);
-
-    let performedSteps = document.getElementById('ts-performed').value;
-    localStorage.setItem('performedSteps', performedSteps);
-
-    document.getElementById('site-name').value = '';
-    document.getElementById('poc').value = '';
-    document.getElementById('contact-phone').value = '';
-    document.getElementById('contact-email').value = '';
-    document.getElementById('cmc-id').value = '';
-    document.getElementById('description-of-issue').value = '';
-    document.getElementById('ts-performed').value = '';
-})
-
+/*
 // event listener for undo-clear btn
 
 undoButton.addEventListener('click', (e) => {
@@ -276,7 +252,7 @@ undoButton.addEventListener('click', (e) => {
         localStorage.clear()
     }
 })
-
+*/
 
 
 document.getElementById('ticket-template').addEventListener('click', () => {
