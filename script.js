@@ -3,6 +3,10 @@ let teamReminderTemplate = false;
 let attEscTemplate = false;
 let sdChatTemplate = false;
 
+let timerId = null; // Tracks the active timer
+
+let copyButton;
+
 function generateTemplate() {
 
     if (ticketTemplate) {
@@ -39,8 +43,8 @@ function generateTemplate() {
             </div>
 
             <div class="steps">
-                <label for="ts-performed">TS Steps performed:</label>
-                <textarea name="ts-performed" id="ts-performed" autocomplete="off"></textarea>
+                <label for="steps">TS Steps performed:</label>
+                <textarea name="steps" id="steps" autocomplete="off"></textarea>
             </div>
 
             <div class="buttons">
@@ -80,8 +84,8 @@ function generateTemplate() {
                 </div>
 
                 <div class="steps">
-                    <label for="tr-next-steps">Next steps:</label>
-                    <textarea name="tr-next-steps" id="tr-next-steps" autocomplete="off"></textarea>
+                    <label for="steps">Next steps:</label>
+                    <textarea name="steps" id="steps" autocomplete="off"></textarea>
                 </div>
 
                 <div class="buttons">
@@ -151,8 +155,8 @@ function generateTemplate() {
                 </div>
 
                 <div class="steps">
-                    <label for="sd-issue">Issue details:</label>
-                    <textarea name="attesc-steps" id="sd-issue" autocomplete="off"></textarea>
+                    <label for="steps">Issue details:</label>
+                    <textarea name="steps" id="steps" autocomplete="off"></textarea>
                 </div>
 
                 <div class="buttons">
@@ -168,54 +172,76 @@ function generateTemplate() {
     }
 }
 
-
 generateTemplate();
 
-const copyButton = document.getElementById('copy-content-btn');
+const form = document.querySelector('#template-form');
+
+form.addEventListener('click', (e) => {
+
+    // Check if the Copy button was clicked
+    if (e.target.id === 'copy-content-btn') {
+        e.preventDefault();
+        const button = document.getElementById('copy-content-btn');
+        let note = '';
+
+        // Select containers ONLY inside the current form
+        const elements = form.querySelectorAll('.container');
+
+        elements.forEach((element) => {
+
+            let label = element.querySelector('label').innerText;
+            let inputVal = element.querySelector('input').value;
+
+            note += `${label} ${inputVal}\n`;
+        });
+
+        //adding the content from Textareas
+        const details = form.querySelector('.steps');
+        const stepsLabel = details.querySelector('label').innerText;
+        const stepsContent = details.querySelector('textarea').value;
+
+
+        note += `\n${stepsLabel}\n\n${stepsContent}`
+
+        navigator.clipboard.writeText(note);
+        console.log(note);
+
+        // This will handle the Copied! notification on button
+        if (timerId) {
+            clearTimeout(timerId);
+        } else {
+            // Save the original text only if a timer isn't already running
+            button.dataset.originalText = button.textContent;
+        }
+
+        // Change to the temporary text immediately
+        button.textContent = 'Copied!';
+
+        // Set a timer to restore the text after 3000 milliseconds (3 seconds)
+        timerId = setTimeout(() => {
+            button.textContent = button.dataset.originalText;
+            timerId = null; // Reset the tracker
+        }, 3000);
+    }
+});
+
+
+
+/*
 const clearButton = document.getElementById('clear-btn');
 const button = document.getElementById('copy-content-btn');
 const undoButton = document.getElementById('undo-btn');
 
 const inputs = document.querySelectorAll('input');
 let timerId = null; // Tracks the active timer
+*/
 
 // Handle copy content button event
-
+/*
 copyButton.addEventListener('click', (e) => {
 
-    e.preventDefault()
 
-    const form = document.querySelector('#template-form')
-    console.log(form.innerHTML)
-
-    const elements = document.querySelectorAll('.container')
-    console.log(elements)
-
-    elements.forEach((element) => console.log(element.innerText))
-
-    // Fetch values from input fields
-    let siteName = document.getElementById('site-name').value;
-    let pointOfContact = document.getElementById('poc').value;
-    let contactPhone = document.getElementById('contact-phone').value;
-    let contactEmail = document.getElementById('contact-email').value;
-    let cmcId = document.getElementById('cmc-id').value;
-    let issueDescription = document.getElementById('description-of-issue').value;
-    let performedSteps = document.getElementById('ts-performed').value;
-
-    // Fetching values from label fields
-    const siteLabel = document.querySelector('label[for="site-name"]').textContent;
-    const pocLabel = document.querySelector('label[for="poc"]').textContent;
-    const phoneLabel = document.querySelector('label[for="contact-phone"]').textContent;
-    const emailLabel = document.querySelector('label[for="contact-email"]').textContent;
-    const cmcLabel = document.querySelector('label[for="cmc-id"]').textContent;
-    const issueLabel = document.querySelector('label[for="description-of-issue"]').textContent;
-    const stepsLabel = document.querySelector('label[for="ts-performed"]').textContent;
-
-    fullContent =
-        `${siteLabel} ${siteName}\n${pocLabel} ${pointOfContact}\n${phoneLabel} ${contactPhone}\n${emailLabel} ${contactEmail}\n${cmcLabel} ${cmcId}\n${issueLabel} ${issueDescription}\n\n${stepsLabel}\n${performedSteps}`
-    console.log(fullContent)
-
-    // This part copies the content to clipboard
+    
     navigator.clipboard.writeText(fullContent);
 
     // This will handle the Copied! notification on button
@@ -233,11 +259,11 @@ copyButton.addEventListener('click', (e) => {
     timerId = setTimeout(() => {
         button.textContent = button.dataset.originalText;
         timerId = null; // Reset the tracker
-    }, 3000);
+    }, 3000); 
 })
 
 
-/*
+
 
 clearButton.addEventListener('click', (e) => {
     e.preventDefault()
