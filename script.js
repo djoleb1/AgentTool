@@ -226,45 +226,6 @@ form.addEventListener('click', (e) => {
 });
 
 
-
-/*
-const clearButton = document.getElementById('clear-btn');
-const button = document.getElementById('copy-content-btn');
-const undoButton = document.getElementById('undo-btn');
-
-const inputs = document.querySelectorAll('input');
-let timerId = null; // Tracks the active timer
-*/
-
-// Handle copy content button event
-/*
-copyButton.addEventListener('click', (e) => {
-
-
-    
-    navigator.clipboard.writeText(fullContent);
-
-    // This will handle the Copied! notification on button
-    if (timerId) {
-        clearTimeout(timerId);
-    } else {
-        // Save the original text only if a timer isn't already running
-        button.dataset.originalText = button.textContent;
-    }
-
-    // Change to the temporary text immediately
-    button.textContent = 'Copied!';
-
-    // Set a timer to restore the text after 3000 milliseconds (3 seconds)
-    timerId = setTimeout(() => {
-        button.textContent = button.dataset.originalText;
-        timerId = null; // Reset the tracker
-    }, 3000); 
-})
-
-
-
-
 clearButton.addEventListener('click', (e) => {
     e.preventDefault()
 
@@ -314,7 +275,7 @@ undoButton.addEventListener('click', (e) => {
         document.getElementById('ts-performed').value = localStorage.getItem('performedSteps');
         localStorage.clear()
     }
-})*/
+})
 
 
 
