@@ -131,10 +131,45 @@ function generateTemplate() {
                         <button id="undo-btn">Undo Clear</button>
                     </div>
                 </div>
-
         `;
+    } else if (sdChatTemplate) {
+        document.querySelector('#template-type').textContent = 'SD Chat Template';
+        document.querySelector('#template-form').innerHTML = `
+                <div class="container">
+                    <label for="sd-site-name">Oracle Site name and/or Site number:</label>
+                    <input type="text" id="sd-site-name" autocomplete="off">
+                </div>
+
+                <div class="container">
+                    <label for="sd-poc-name">Point of contact name:</label>
+                    <input type="text" id="sd-poc-name" autocomplete="off">
+                </div>
+
+                <div class="container">
+                    <label for="sd-poc-num">Point of contact phone number:</label>
+                    <input type="text" id="sd-poc-num" autocomplete="off">
+                </div>
+
+                <div class="steps">
+                    <label for="sd-issue">Issue details:</label>
+                    <textarea name="attesc-steps" id="sd-issue" autocomplete="off"></textarea>
+                </div>
+
+                <div class="buttons">
+
+                    <button id="copy-content-btn" type="submit">Copy content</button>
+
+                    <div class="corrective-btns">
+                        <button id="clear-btn">Clear</button>
+                        <button id="undo-btn">Undo Clear</button>
+                    </div>
+                </div>
+        `
     }
 }
+
+
+generateTemplate();
 
 const copyButton = document.getElementById('copy-content-btn');
 const clearButton = document.getElementById('clear-btn');
@@ -145,10 +180,18 @@ const inputs = document.querySelectorAll('input');
 let timerId = null; // Tracks the active timer
 
 // Handle copy content button event
-/*
+
 copyButton.addEventListener('click', (e) => {
 
     e.preventDefault()
+
+    const form = document.querySelector('#template-form')
+    console.log(form.innerHTML)
+
+    const elements = document.querySelectorAll('.container')
+    console.log(elements)
+
+    elements.forEach((element) => console.log(element.innerText))
 
     // Fetch values from input fields
     let siteName = document.getElementById('site-name').value;
@@ -191,7 +234,10 @@ copyButton.addEventListener('click', (e) => {
         button.textContent = button.dataset.originalText;
         timerId = null; // Reset the tracker
     }, 3000);
-}) 
+})
+
+
+/*
 
 clearButton.addEventListener('click', (e) => {
     e.preventDefault()
@@ -244,7 +290,7 @@ undoButton.addEventListener('click', (e) => {
     }
 })*/
 
-generateTemplate()
+
 
 document.getElementById('ticket-template').addEventListener('click', () => {
 
@@ -254,7 +300,7 @@ document.getElementById('ticket-template').addEventListener('click', () => {
     sdChatTemplate = false;
 
     generateTemplate();
-})
+});
 
 document.getElementById('tr-template').addEventListener('click', () => {
 
@@ -264,7 +310,7 @@ document.getElementById('tr-template').addEventListener('click', () => {
     sdChatTemplate = false;
 
     generateTemplate();
-})
+});
 
 document.getElementById('attesc-template').addEventListener('click', () => {
 
@@ -274,7 +320,17 @@ document.getElementById('attesc-template').addEventListener('click', () => {
     sdChatTemplate = false;
 
     generateTemplate();
-})
+});
+
+document.getElementById('sd-template').addEventListener('click', () => {
+
+    ticketTemplate = false;
+    teamReminderTemplate = false;
+    attEscTemplate = false;
+    sdChatTemplate = true;
+
+    generateTemplate();
+});
 
 
 // to do: event.currentTarget
