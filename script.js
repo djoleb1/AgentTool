@@ -172,13 +172,35 @@ function generateTemplate() {
     }
 }
 
+/*
+//Generate note placed into a standalone function since it will be used to store notes in localstorage
+function generateNote(templatedetails, stepsLabel, stepsContent) {
+
+    let note = '';
+
+    templatedetails.forEach((element) => {
+
+        let label = element.querySelector('label').innerText;
+        let inputVal = element.querySelector('input').value;
+
+        note += `${label} ${inputVal}\n`;
+    });
+
+    note += `\n${stepsLabel.innerText}\n\n${stepsContent.value}`
+
+    navigator.clipboard.writeText(note);
+    console.log(note);
+    return note;
+}
+*/
+
 generateTemplate();
 
 const form = document.querySelector('#template-form');
 
 form.addEventListener('click', (e) => {
 
-    // Select containers ONLY inside the current form
+    // Select containers inside the current form
     const elements = form.querySelectorAll('.container');
 
     //adding the content from Textareas
@@ -187,8 +209,13 @@ form.addEventListener('click', (e) => {
     let stepsContent = details.querySelector('textarea');
 
     // Check if the Copy button was clicked
+
     if (e.target.id === 'copy-content-btn') {
         e.preventDefault();
+
+        // Clearing out all stored values, since current inputs are copied there is no need for a backup
+        localStorage.clear();
+
         const button = document.getElementById('copy-content-btn');
         let note = '';
 
@@ -203,7 +230,9 @@ form.addEventListener('click', (e) => {
         note += `\n${stepsLabel.innerText}\n\n${stepsContent.value}`
 
         navigator.clipboard.writeText(note);
-        console.log(note);
+
+        //generateNote(elements, stepsLabel, stepsContent);
+
 
         // This will handle the Copied! notification on button
         if (timerId) {
@@ -225,9 +254,25 @@ form.addEventListener('click', (e) => {
 
         e.preventDefault();
 
+        //storing the current values in localStorage
+        elements.forEach((element) => {
+
+            let label = element.querySelector('label').innerText;
+            let inputVal = element.querySelector('input').value;
+
+            localStorage.setItem(label, inputVal);
+        });
+
+        // Adding TS details to localstorage
+        localStorage.setItem(stepsLabel.innerText, stepsContent.value);
+
+
+        // Clearing out all input fields
         elements.forEach((element) => {
             element.querySelector('input').value = '';
         })
+
+
 
         stepsContent.value = '';
     }
